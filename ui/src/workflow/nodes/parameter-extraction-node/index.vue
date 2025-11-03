@@ -105,7 +105,7 @@ import ParametersFieldTable from '@/workflow/nodes/parameter-extraction-node/com
 import { useRoute } from 'vue-router'
 import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
 import { set, groupBy } from 'lodash'
-const getApplicationDetail = inject('getApplicationDetail') as any
+const getResourceDetail = inject('getResourceDetail') as any
 const props = defineProps<{ nodeModel: any }>()
 const AIModeParamSettingDialogRef = ref<InstanceType<typeof AIModeParamSettingDialog>>()
 const route = useRoute()
@@ -120,7 +120,7 @@ const openAIParamSettingDialog = (modelId: string) => {
 function refreshParam(data: any) {
   set(props.nodeModel.properties.node_data, 'model_params_setting', data)
 }
-const application = getApplicationDetail()
+const resource = getResourceDetail()
 const modelOptions = ref<any>(null)
 const wheel = (e: any) => {
   if (e.ctrlKey === true) {
@@ -143,7 +143,7 @@ function getSelectModel() {
     apiType.value === 'systemManage'
       ? {
           model_type: 'LLM',
-          workspace_id: application.value?.workspace_id,
+          workspace_id: resource.value?.workspace_id,
         }
       : {
           model_type: 'LLM',

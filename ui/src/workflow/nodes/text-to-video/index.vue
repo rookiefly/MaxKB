@@ -16,7 +16,9 @@
           prop="model_id"
           :rules="{
             required: true,
-            message: $t('views.applicationWorkflow.nodes.textToVideoGenerate.model.requiredMessage'),
+            message: $t(
+              'views.applicationWorkflow.nodes.textToVideoGenerate.model.requiredMessage',
+            ),
             trigger: 'change',
           }"
         >
@@ -43,7 +45,7 @@
           <ModelSelect
             @change="model_change"
             @wheel="wheel"
-             @focus="getSelectModel"
+            @focus="getSelectModel"
             :teleported="false"
             v-model="form_data.model_id"
             :placeholder="
@@ -107,7 +109,9 @@
               <el-tooltip effect="dark" placement="right" popper-class="max-w-200">
                 <template #content
                   >{{
-                    $t('views.applicationWorkflow.nodes.textToVideoGenerate.negative_prompt.tooltip')
+                    $t(
+                      'views.applicationWorkflow.nodes.textToVideoGenerate.negative_prompt.tooltip',
+                    )
                   }}
                 </template>
                 <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
@@ -161,7 +165,7 @@ import AIModeParamSettingDialog from '@/views/application/component/AIModeParamS
 import { t } from '@/locales'
 import { useRoute } from 'vue-router'
 import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
-const getApplicationDetail = inject('getApplicationDetail') as any
+const getResourceDetail = inject('getResourceDetail') as any
 const route = useRoute()
 
 const {
@@ -225,13 +229,13 @@ const form_data = computed({
   },
 })
 
-const application = getApplicationDetail()
+const resource = getResourceDetail()
 function getSelectModel() {
   const obj =
     apiType.value === 'systemManage'
       ? {
           model_type: 'TTV',
-          workspace_id: application.value?.workspace_id,
+          workspace_id: resource.value?.workspace_id,
         }
       : {
           model_type: 'TTV',

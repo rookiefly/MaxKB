@@ -6,6 +6,9 @@ export default {
   searchBar: {
     placeholder: '按名稱搜尋',
   },
+  operation: {
+    publish: '發佈',
+  },
   setting: {
     vectorization: '向量化',
     sync: '同步',

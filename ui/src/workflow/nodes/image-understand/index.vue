@@ -26,8 +26,7 @@
             <div class="flex-between w-full">
               <div>
                 <span
-                >{{
-                    t('views.applicationWorkflow.nodes.imageUnderstandNode.model.label')
+                  >{{ t('views.applicationWorkflow.nodes.imageUnderstandNode.model.label')
                   }}<span class="color-danger">*</span></span
                 >
               </div>
@@ -100,8 +99,7 @@
             <div class="flex align-center">
               <div class="mr-4">
                 <span
-                >{{
-                    $t('views.application.form.prompt.label')
+                  >{{ $t('views.application.form.prompt.label')
                   }}<span class="color-danger">*</span></span
                 >
               </div>
@@ -125,8 +123,8 @@
             <div class="flex-between">
               <div>{{ $t('views.application.form.historyRecord.label') }}</div>
               <el-select v-model="form_data.dialogue_type" type="small" style="width: 100px">
-                <el-option :label="$t('views.applicationWorkflow.node')" value="NODE"/>
-                <el-option :label="$t('views.applicationWorkflow.workflow')" value="WORKFLOW"/>
+                <el-option :label="$t('views.applicationWorkflow.node')" value="NODE" />
+                <el-option :label="$t('views.applicationWorkflow.workflow')" value="WORKFLOW" />
               </el-select>
             </div>
           </template>
@@ -152,8 +150,7 @@
           }"
         >
           <template #label
-          >{{
-              $t('views.applicationWorkflow.nodes.imageUnderstandNode.image.label')
+            >{{ $t('views.applicationWorkflow.nodes.imageUnderstandNode.image.label')
             }}<span class="color-danger">*</span></template
           >
           <NodeCascader
@@ -174,8 +171,8 @@
             <div class="flex align-center">
               <div class="mr-4">
                 <span>{{
-                    $t('views.applicationWorkflow.nodes.aiChatNode.returnContent.label')
-                  }}</span>
+                  $t('views.applicationWorkflow.nodes.aiChatNode.returnContent.label')
+                }}</span>
               </div>
               <el-tooltip effect="dark" placement="right" popper-class="max-w-200">
                 <template #content>
@@ -185,32 +182,32 @@
               </el-tooltip>
             </div>
           </template>
-          <el-switch size="small" v-model="form_data.is_result"/>
+          <el-switch size="small" v-model="form_data.is_result" />
         </el-form-item>
       </el-form>
     </el-card>
-    <AIModeParamSettingDialog ref="AIModeParamSettingDialogRef" @refresh="refreshParam"/>
-    <GeneratePromptDialog @replace="replace" ref="GeneratePromptDialogRef"/>
+    <AIModeParamSettingDialog ref="AIModeParamSettingDialogRef" @refresh="refreshParam" />
+    <GeneratePromptDialog @replace="replace" ref="GeneratePromptDialogRef" />
   </NodeContainer>
 </template>
 
 <script setup lang="ts">
 import NodeContainer from '@/workflow/common/NodeContainer.vue'
-import {computed, onMounted, ref, inject} from 'vue'
-import {groupBy, set} from 'lodash'
+import { computed, onMounted, ref, inject } from 'vue'
+import { groupBy, set } from 'lodash'
 import NodeCascader from '@/workflow/common/NodeCascader.vue'
-import type {FormInstance} from 'element-plus'
+import type { FormInstance } from 'element-plus'
 import AIModeParamSettingDialog from '@/views/application/component/AIModeParamSettingDialog.vue'
-import {t} from '@/locales'
-import {useRoute} from 'vue-router'
-import {loadSharedApi} from '@/utils/dynamics-api/shared-api'
-import GeneratePromptDialog from "@/views/application/component/GeneratePromptDialog.vue";
+import { t } from '@/locales'
+import { useRoute } from 'vue-router'
+import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
+import GeneratePromptDialog from '@/views/application/component/GeneratePromptDialog.vue'
 
-const getApplicationDetail = inject('getApplicationDetail') as any
+const getResourceDetail = inject('getResourceDetail') as any
 const route = useRoute()
 
 const {
-  params: {id},
+  params: { id },
 } = route as any
 
 const apiType = computed(() => {
@@ -232,7 +229,7 @@ const validate = () => {
     nodeCascaderRef.value ? nodeCascaderRef.value.validate() : Promise.resolve(''),
     aiChatNodeFormRef.value?.validate(),
   ]).catch((err: any) => {
-    return Promise.reject({node: props.nodeModel, errMessage: err})
+    return Promise.reject({ node: props.nodeModel, errMessage: err })
   })
 }
 
@@ -274,19 +271,19 @@ const form_data = computed({
   },
 })
 
-const application = getApplicationDetail()
+const resource = getResourceDetail()
 
 function getSelectModel() {
   const obj =
     apiType.value === 'systemManage'
       ? {
-        model_type: 'IMAGE',
-        workspace_id: application.value?.workspace_id,
-      }
+          model_type: 'IMAGE',
+          workspace_id: resource.value?.workspace_id,
+        }
       : {
-        model_type: 'IMAGE',
-      }
-  loadSharedApi({type: 'model', systemType: apiType.value})
+          model_type: 'IMAGE',
+        }
+  loadSharedApi({ type: 'model', systemType: apiType.value })
     .getSelectModelList(obj)
     .then((res: any) => {
       modelOptions.value = groupBy(res?.data, 'provider')

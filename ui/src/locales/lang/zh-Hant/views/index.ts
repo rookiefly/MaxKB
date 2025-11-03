@@ -16,6 +16,7 @@ import applicationWorkflow from './application-workflow'
 import login from './login'
 import operateLog from './operate-log'
 import shared from './shared'
+import knowledgeWorkflow from './knowledge-workflow'
 export default {
   application,
   applicationOverview,
@@ -34,5 +35,6 @@ export default {
   role,
   workspace,
   chatUser,
-  shared
+  shared,
+  knowledgeWorkflow,
 }

@@ -1,23 +1,22 @@
 <template>
-  <div class="application-workflow" v-loading="loading">
+  <div class="knowledge-workflow" v-loading="loading">
     <div class="header border-b flex-between p-12-24 white-bg">
       <div class="flex align-center">
         <back-button @click="back"></back-button>
         <h4 class="ellipsis" style="max-width: 300px" :title="detail?.name">{{ detail?.name }}</h4>
         <div v-if="showHistory && disablePublic">
           <el-text type="info" class="ml-16 color-secondary"
-            >{{ $t('views.applicationWorkflow.info.previewVersion') }}
+            >{{ $t('views.knowledgeWorkflow.info.previewVersion') }}
             {{ currentVersion.name || datetimeFormat(currentVersion.update_time) }}</el-text
           >
         </div>
         <el-text type="info" class="ml-16 color-secondary" v-else-if="saveTime"
-          >{{ $t('views.applicationWorkflow.info.saveTime')
-          }}{{ datetimeFormat(saveTime) }}</el-text
+          >{{ $t('views.knowledgeWorkflow.info.saveTime') }}{{ datetimeFormat(saveTime) }}</el-text
         >
       </div>
       <div v-if="showHistory && disablePublic">
         <el-button type="primary" class="mr-8" @click="refreshVersion()">
-          {{ $t('views.applicationWorkflow.setting.restoreVersion') }}
+          {{ $t('views.knowledgeWorkflow.setting.restoreVersion') }}
         </el-button>
         <el-divider direction="vertical" />
         <el-button text @click="closeHistory">
@@ -29,18 +28,18 @@
       <div v-else>
         <el-button @click="showPopover = !showPopover">
           <AppIcon iconName="app-add-outlined" class="mr-4" />
-          {{ $t('views.applicationWorkflow.setting.addComponent') }}
+          {{ $t('views.knowledgeWorkflow.setting.addComponent') }}
         </el-button>
         <el-button @click="clickShowDebug" :disabled="showDebug" v-if="permissionPrecise.debug(id)">
           <AppIcon iconName="app-debug-outlined" class="mr-4"></AppIcon>
-          {{ $t('views.applicationWorkflow.setting.debug') }}
+          {{ $t('views.knowledgeWorkflow.setting.debug') }}
         </el-button>
-        <el-button @click="saveApplication(true)">
+        <el-button @click="saveknowledge(true)">
           <AppIcon iconName="app-save-outlined" class="mr-4"></AppIcon>
           {{ $t('common.save') }}
         </el-button>
         <el-button type="primary" @click="publish">
-          {{ $t('views.application.operation.publish') }}
+          {{ $t('views.knowledge.operation.publish') }}
         </el-button>
 
         <el-dropdown trigger="click">
@@ -52,17 +51,17 @@
               <a :href="shareUrl" target="_blank">
                 <el-dropdown-item>
                   <AppIcon iconName="app-create-chat" class="color-secondary"></AppIcon>
-                  {{ $t('views.application.operation.toChat') }}
+                  {{ $t('views.knowledge.operation.toChat') }}
                 </el-dropdown-item>
               </a>
 
               <el-dropdown-item @click="openHistory">
                 <AppIcon iconName="app-history-outlined" class="color-secondary"></AppIcon>
-                {{ $t('views.applicationWorkflow.setting.releaseHistory') }}
+                {{ $t('views.knowledgeWorkflow.setting.releaseHistory') }}
               </el-dropdown-item>
               <el-dropdown-item>
                 <AppIcon iconName="app-save-outlined" class="color-secondary"></AppIcon>
-                {{ $t('views.applicationWorkflow.setting.autoSave') }}
+                {{ $t('views.knowledgeWorkflow.setting.autoSave') }}
                 <div class="ml-4">
                   <el-switch size="small" v-model="isSave" @change="changeSave" />
                 </div>
@@ -106,7 +105,7 @@
               </div>
 
               <h4 class="ellipsis" style="max-width: 270px" :title="detail?.name">
-                {{ detail?.name || $t('views.application.form.appName.label') }}
+                {{ detail?.name || $t('views.knowledge.form.appName.label') }}
               </h4>
             </div>
             <div class="mr-16">
@@ -127,7 +126,7 @@
           </div>
         </div>
         <div class="scrollbar-height">
-          <AiChat :application-details="detail" :type="'debug-ai-chat'"></AiChat>
+          <AiChat :knowledge-details="detail" :type="'debug-ai-chat'"></AiChat>
         </div>
       </div>
     </el-collapse-transition>
@@ -145,8 +144,8 @@ import { ref, onMounted, onBeforeUnmount, computed, nextTick, provide } from 'vu
 import { useRouter, useRoute } from 'vue-router'
 import type { Action } from 'element-plus'
 import Workflow from '@/workflow/index.vue'
-import DropdownMenu from '@/views/application-workflow/component/DropdownMenu.vue'
-import PublishHistory from '@/views/application-workflow/component/PublishHistory.vue'
+import DropdownMenu from '@/views/knowledge-workflow/component/DropdownMenu.vue'
+import PublishHistory from '@/views/knowledge-workflow/component/PublishHistory.vue'
 import { isAppIcon, resetUrl } from '@/utils/common'
 import { MsgSuccess, MsgError, MsgConfirm } from '@/utils/message'
 import { datetimeFormat } from '@/utils/time'
@@ -160,6 +159,7 @@ import { EditionConst, PermissionConst, RoleConst } from '@/utils/permission/dat
 import permissionMap from '@/permission'
 import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
 provide('getResourceDetail', () => detail)
+provide('workflowMode', 'application')
 const { theme } = useStore()
 const router = useRouter()
 const route = useRoute()
@@ -175,7 +175,7 @@ const apiType = computed(() => {
 })
 
 const permissionPrecise = computed(() => {
-  return permissionMap['application'][apiType.value]
+  return permissionMap['knowledge'][apiType.value]
 })
 
 const isDefaultTheme = computed(() => {
@@ -209,13 +209,13 @@ const shareUrl = computed(
 
 function back() {
   if (JSON.stringify(cloneWorkFlow.value) !== JSON.stringify(getGraphData())) {
-    MsgConfirm(t('common.tip'), t('views.applicationWorkflow.tip.saveMessage'), {
-      confirmButtonText: t('views.applicationWorkflow.setting.exitSave'),
-      cancelButtonText: t('views.applicationWorkflow.setting.exit'),
+    MsgConfirm(t('common.tip'), t('views.knowledgeWorkflow.tip.saveMessage'), {
+      confirmButtonText: t('views.knowledgeWorkflow.setting.exitSave'),
+      cancelButtonText: t('views.knowledgeWorkflow.setting.exit'),
       distinguishCancelAndClose: true,
     })
       .then(() => {
-        saveApplication(true, true)
+        saveknowledge(true, true)
       })
       .catch((action: Action) => {
         if (action === 'cancel') {
@@ -237,9 +237,6 @@ function refreshVersion(item?: any) {
   if (item) {
     renderGraphData(item)
   }
-  // if (hasPermission(`APPLICATION:MANAGE:${id}`, 'AND') && isSave.value) {
-  //   initInterval()
-  // }
   showHistory.value = false
   disablePublic.value = false
 }
@@ -308,10 +305,10 @@ const publish = () => {
         MsgError(e.toString())
         return
       }
-      loadSharedApi({ type: 'application', systemType: apiType.value })
-        .putApplication(id, { work_flow: workflow }, loading)
+      loadSharedApi({ type: 'knowledge', systemType: apiType.value })
+        .putknowledge(id, { work_flow: workflow }, loading)
         .then(() => {
-          return loadSharedApi({ type: 'application', systemType: apiType.value }).publish(
+          return loadSharedApi({ type: 'knowledge', systemType: apiType.value }).publish(
             id,
             {},
             loading,
@@ -340,7 +337,7 @@ const publish = () => {
                       })
                   : []
             })
-          MsgSuccess(t('views.application.tip.publishSuccess'))
+          MsgSuccess(t('views.knowledge.tip.publishSuccess'))
         })
         .catch((res: any) => {
           const node = res.node
@@ -348,14 +345,14 @@ const publish = () => {
           if (typeof err_message == 'string') {
             MsgError(
               res.node.properties?.stepName +
-                ` ${t('views.applicationWorkflow.node').toLowerCase()} ` +
+                ` ${t('views.knowledgeWorkflow.node').toLowerCase()} ` +
                 err_message.toLowerCase(),
             )
           } else {
             const keys = Object.keys(err_message)
             MsgError(
               node.properties?.stepName +
-                ` ${t('views.applicationWorkflow.node').toLowerCase()} ` +
+                ` ${t('views.knowledgeWorkflow.node').toLowerCase()} ` +
                 err_message[keys[0]]?.[0]?.message.toLowerCase(),
             )
           }
@@ -366,13 +363,13 @@ const publish = () => {
       const err_message = res.errMessage
       if (typeof err_message == 'string') {
         MsgError(
-          res.node.properties?.stepName + ` ${t('views.applicationWorkflow.node')}，` + err_message,
+          res.node.properties?.stepName + ` ${t('views.knowledgeWorkflow.node')}，` + err_message,
         )
       } else {
         const keys = Object.keys(err_message)
         MsgError(
           node.properties?.stepName +
-            ` ${t('views.applicationWorkflow.node')}，` +
+            ` ${t('views.knowledgeWorkflow.node')}，` +
             err_message[keys[0]]?.[0]?.message,
         )
       }
@@ -404,13 +401,13 @@ const clickShowDebug = () => {
       const err_message = res.errMessage
       if (typeof err_message == 'string') {
         MsgError(
-          res.node.properties?.stepName + ` ${t('views.applicationWorkflow.node')}，` + err_message,
+          res.node.properties?.stepName + ` ${t('views.knowledgeWorkflow.node')}，` + err_message,
         )
       } else {
         const keys = Object.keys(err_message)
         MsgError(
           node.properties?.stepName +
-            ` ${t('views.applicationWorkflow.node')}，` +
+            ` ${t('views.knowledgeWorkflow.node')}，` +
             err_message[keys[0]]?.[0]?.message,
         )
       }
@@ -421,12 +418,14 @@ function getGraphData() {
 }
 
 function getDetail() {
-  loadSharedApi({ type: 'application', systemType: apiType.value })
-    .getApplicationDetail(id)
+  loadSharedApi({ type: 'knowledge', systemType: apiType.value })
+    .getKnowledgeDetail(id)
     .then((res: any) => {
-      res.data?.work_flow['nodes'].map((v: any) => {
-        v['properties']['noRender'] = true
-      })
+      let workspace = res.data?.work_flow
+      if (!workspace) {
+        workspace = {}
+      }
+
       detail.value = res.data
       detail.value.stt_model_id = res.data.stt_model
       detail.value.tts_model_id = res.data.tts_model
@@ -453,11 +452,7 @@ function getDetail() {
                   })
               : []
         })
-      loadSharedApi({ type: 'application', systemType: apiType.value })
-        .getAccessToken(id, loading)
-        .then((res: any) => {
-          detail.value = { ...detail.value, ...res.data }
-        })
+
       workflowRef.value?.clearGraphData()
       nextTick(() => {
         workflowRef.value?.render(detail.value.work_flow)
@@ -465,8 +460,8 @@ function getDetail() {
       })
       // 企业版和专业版
       if (hasPermission([EditionConst.IS_EE, EditionConst.IS_PE], 'OR')) {
-        loadSharedApi({ type: 'application', systemType: apiType.value })
-          .getApplicationSetting(id)
+        loadSharedApi({ type: 'knowledge', systemType: apiType.value })
+          .getknowledgeSetting(id)
           .then((ok: any) => {
             detail.value = { ...detail.value, ...ok.data }
           })
@@ -474,13 +469,13 @@ function getDetail() {
     })
 }
 
-function saveApplication(bool?: boolean, back?: boolean) {
+function saveknowledge(bool?: boolean, back?: boolean) {
   const obj = {
     work_flow: getGraphData(),
   }
   loading.value = back || false
-  loadSharedApi({ type: 'application', systemType: apiType.value })
-    .putApplication(id, obj)
+  loadSharedApi({ type: 'knowledge', systemType: apiType.value })
+    .putKnowledge(id, obj)
     .then(() => {
       saveTime.value = new Date()
       if (bool) {
@@ -504,116 +499,11 @@ const go = () => {
 }
 
 const get_resource_management_route = () => {
-  if (hasPermission([RoleConst.ADMIN, PermissionConst.RESOURCE_APPLICATION_OVERVIEW_READ], 'OR')) {
-    return `/application/${from}/${id}/WORK_FLOW/overview`
-  } else if (
-    hasPermission([RoleConst.ADMIN, PermissionConst.RESOURCE_APPLICATION_ACCESS_READ], 'OR')
-  ) {
-    return `/application/${from}/${id}/WORK_FLOW/access`
-  } else if (
-    hasPermission([RoleConst.ADMIN, PermissionConst.RESOURCE_APPLICATION_CHAT_USER_READ], 'OR')
-  ) {
-    return `/application/${from}/${id}/WORK_FLOW/chat-user`
-  } else if (
-    hasPermission([RoleConst.ADMIN, PermissionConst.RESOURCE_APPLICATION_CHAT_LOG_READ], 'OR')
-  ) {
-    return `/application/${from}/${id}/WORK_FLOW/chat-log`
-  } else {
-    return `/system/resource-management/application`
-  }
+  return `/knowledge/${from}/${id}/WORK_FLOW/document`
 }
 
 const get_route = () => {
-  if (
-    hasPermission(
-      [
-        new ComplexPermission(
-          [RoleConst.USER],
-          [PermissionConst.APPLICATION.getApplicationWorkspaceResourcePermission(id)],
-          [],
-          'AND',
-        ),
-        RoleConst.WORKSPACE_MANAGE.getWorkspaceRole,
-        PermissionConst.APPLICATION_OVERVIEW_READ.getWorkspacePermissionWorkspaceManageRole,
-        PermissionConst.APPLICATION_OVERVIEW_READ.getApplicationWorkspaceResourcePermission(id),
-      ],
-      'OR',
-    )
-  ) {
-    return `/application/${from}/${id}/WORK_FLOW/overview`
-  } else if (
-    hasPermission(
-      [
-        new ComplexPermission(
-          [RoleConst.USER],
-          [PermissionConst.APPLICATION.getApplicationWorkspaceResourcePermission(id)],
-          [EditionConst.IS_EE, EditionConst.IS_PE],
-          'AND',
-        ),
-        new ComplexPermission(
-          [RoleConst.WORKSPACE_MANAGE.getWorkspaceRole],
-          [PermissionConst.APPLICATION_ACCESS_READ.getWorkspacePermissionWorkspaceManageRole],
-          [EditionConst.IS_EE, EditionConst.IS_PE],
-          'OR',
-        ),
-        new ComplexPermission(
-          [],
-          [PermissionConst.APPLICATION_ACCESS_READ.getApplicationWorkspaceResourcePermission(id)],
-          [EditionConst.IS_EE, EditionConst.IS_PE],
-          'OR',
-        ),
-      ],
-      'OR',
-    )
-  ) {
-    return `/application/${from}/${id}/WORK_FLOW/access`
-  } else if (
-    hasPermission(
-      [
-        new ComplexPermission(
-          [RoleConst.USER],
-          [PermissionConst.APPLICATION.getApplicationWorkspaceResourcePermission(id)],
-          [EditionConst.IS_EE, EditionConst.IS_PE],
-          'AND',
-        ),
-        new ComplexPermission(
-          [RoleConst.WORKSPACE_MANAGE.getWorkspaceRole],
-          [PermissionConst.APPLICATION_CHAT_USER_READ.getWorkspacePermissionWorkspaceManageRole],
-          [EditionConst.IS_EE, EditionConst.IS_PE],
-          'OR',
-        ),
-        new ComplexPermission(
-          [],
-          [
-            PermissionConst.APPLICATION_CHAT_USER_READ.getApplicationWorkspaceResourcePermission(
-              id,
-            ),
-          ],
-          [EditionConst.IS_EE, EditionConst.IS_PE],
-          'OR',
-        ),
-      ],
-      'OR',
-    )
-  ) {
-    return `/application/${from}/${id}/WORK_FLOW/chat-user`
-  } else if (
-    hasPermission(
-      [
-        new ComplexPermission(
-          [RoleConst.USER],
-          [PermissionConst.APPLICATION.getApplicationWorkspaceResourcePermission(id)],
-          [],
-          'AND',
-        ),
-        PermissionConst.APPLICATION_CHAT_LOG_READ.getWorkspacePermissionWorkspaceManageRole,
-        PermissionConst.APPLICATION_CHAT_LOG_READ.getApplicationWorkspaceResourcePermission(id),
-      ],
-      'OR',
-    )
-  ) {
-    return `/application/${from}/${id}/WORK_FLOW/chat-log`
-  } else return `/application`
+  return `/knowledge/${id}/${from}/document`
 }
 
 /**
@@ -621,7 +511,7 @@ const get_route = () => {
  */
 const initInterval = () => {
   interval = setInterval(() => {
-    saveApplication()
+    saveknowledge()
   }, 60000)
 }
 
@@ -651,7 +541,7 @@ onBeforeUnmount(() => {
 })
 </script>
 <style lang="scss">
-.application-workflow {
+.knowledge-workflow {
   background: var(--app-layout-bg-color);
   height: 100%;
 

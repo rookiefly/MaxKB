@@ -130,7 +130,11 @@
             <template #label>
               <div class="flex-between">
                 <div>
-                  <TooltipLabel v-if="item.label.attrs.tooltip" :label="item.label" :tooltip="item.label.attrs.tooltip" />
+                  <TooltipLabel
+                    v-if="item.label.attrs.tooltip"
+                    :label="item.label"
+                    :tooltip="item.label.attrs.tooltip"
+                  />
                   <span v-else>{{ item.label.label }}</span>
                   <span v-if="item.required" class="color-danger">*</span>
                 </div>
@@ -200,7 +204,11 @@
             <template #label>
               <div class="flex-between">
                 <div>
-                  <TooltipLabel v-if="item.label.attrs.tooltip" :label="item.label" :tooltip="item.label.attrs.tooltip" />
+                  <TooltipLabel
+                    v-if="item.label.attrs.tooltip"
+                    :label="item.label"
+                    :tooltip="item.label.attrs.tooltip"
+                  />
                   <span v-else>{{ item.label.label }}</span>
                   <span v-if="item.required" class="color-danger">*</span>
                 </div>
@@ -271,8 +279,8 @@ const route = useRoute()
 const {
   params: { id },
 } = route as any
-const getApplicationDetail = inject('getApplicationDetail') as any
-const applicationDetail = getApplicationDetail()
+const getResourceDetail = inject('getResourceDetail') as any
+const resource = getResourceDetail()
 
 const apiType = computed(() => {
   if (route.path.includes('resource-management')) {
@@ -571,7 +579,7 @@ function getMcpToolSelectOptions() {
       ? {
           scope: 'WORKSPACE',
           tool_type: 'MCP',
-          workspace_id: applicationDetail.value?.workspace_id,
+          workspace_id: resource.value?.workspace_id,
         }
       : {
           scope: 'WORKSPACE',

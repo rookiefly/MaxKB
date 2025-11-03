@@ -335,7 +335,7 @@ import { useRoute } from 'vue-router'
 
 import { resetUrl } from '@/utils/common'
 import { relatedObject } from '@/utils/array.ts'
-const getApplicationDetail = inject('getApplicationDetail') as any
+const getResourceDetail = inject('getResourceDetail') as any
 const route = useRoute()
 
 const {
@@ -431,14 +431,14 @@ const validate = () => {
   })
 }
 
-const application = getApplicationDetail()
+const resource = getResourceDetail()
 
 function getSelectModel() {
   const obj =
     apiType.value === 'systemManage'
       ? {
           model_type: 'LLM',
-          workspace_id: application.value?.workspace_id,
+          workspace_id: resource.value?.workspace_id,
         }
       : {
           model_type: 'LLM',
@@ -522,7 +522,7 @@ function getToolSelectOptions() {
       ? {
           scope: 'WORKSPACE',
           tool_type: 'CUSTOM',
-          workspace_id: application.value?.workspace_id,
+          workspace_id: resource.value?.workspace_id,
         }
       : {
           scope: 'WORKSPACE',
@@ -545,7 +545,7 @@ function getMcpToolSelectOptions() {
       ? {
           scope: 'WORKSPACE',
           tool_type: 'MCP',
-          workspace_id: application.value?.workspace_id,
+          workspace_id: resource.value?.workspace_id,
         }
       : {
           scope: 'WORKSPACE',

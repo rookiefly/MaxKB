@@ -6,6 +6,9 @@ export default {
     vectorization: '向量化',
     sync: '同步',
   },
+  operation: {
+    publish: '发布',
+  },
   tip: {
     professionalMessage: '社区版最多支持 50 个知识库，如需拥有更多知识库，请升级为专业版。',
     syncSuccess: '同步任务发送成功',

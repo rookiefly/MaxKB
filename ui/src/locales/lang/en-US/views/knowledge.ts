@@ -6,6 +6,9 @@ export default {
   searchBar: {
     placeholder: 'Search by name',
   },
+  operation: {
+    publish: 'Publish',
+  },
   setting: {
     vectorization: 'Vectorization',
     sync: 'Sync',
