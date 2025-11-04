@@ -57,6 +57,28 @@ export const baseNode = {
     user_input_field_list: [],
   },
 }
+export const knowledgeBaseNode = {
+  id: WorkflowType.KnowledgeBase,
+  type: WorkflowType.KnowledgeBase,
+  x: 360,
+  y: 2761.3875,
+  text: '',
+  properties: {
+    height: 728.375,
+    stepName: t('views.applicationWorkflow.nodes.baseNode.label'),
+    input_field_list: [],
+    node_data: {
+      name: '',
+      desc: '',
+      prologue: t('views.application.form.defaultPrologue'),
+      tts_type: 'BROWSER',
+    },
+    config: {},
+    showNode: true,
+    user_input_config: { title: t('chat.userInput') },
+    user_input_field_list: [],
+  },
+}
 /**
  * 说明
  * type 与 nodes 文件对应
@@ -880,6 +902,7 @@ export const nodeDict: any = {
   [WorkflowType.VideoUnderstandNode]: videoUnderstandNode,
   [WorkflowType.ParameterExtractionNode]: parameterExtractionNode,
   [WorkflowType.VariableAggregationNode]: variableAggregationNode,
+  [WorkflowType.KnowledgeBase]: knowledgeBaseNode,
 }
 
 export function isWorkFlow(type: string | undefined) {

@@ -6,6 +6,7 @@ export enum SearchMode {
 
 export enum WorkflowType {
   Base = 'base-node',
+  KnowledgeBase = 'knowledge-base-node',
   Start = 'start-node',
   AiChat = 'ai-chat-node',
   SearchKnowledge = 'search-knowledge-node',

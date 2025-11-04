@@ -107,10 +107,11 @@ class AppNode extends HtmlResize.view {
       (pre, next) => [...pre, ...next],
       [],
     )
-    const start_node_field_list = (
-      this.props.graphModel.getNodeModelById('start-node') ||
-      this.props.graphModel.getNodeModelById('loop-start-node')
-    ).get_node_field_list()
+    const start_node_field_list =
+      (
+        this.props.graphModel.getNodeModelById('start-node') ||
+        this.props.graphModel.getNodeModelById('loop-start-node')
+      )?.get_node_field_list() || []
     return [...start_node_field_list, ...result]
   }
 
@@ -414,7 +415,7 @@ class AppNodeModel extends HtmlResize.model {
     const showNode = this.properties.showNode === undefined ? true : this.properties.showNode
     const anchors: any = []
 
-    if (this.type !== WorkflowType.Base) {
+    if (![WorkflowType.Base as string, WorkflowType.KnowledgeBase as string].includes(this.type)) {
       if (![WorkflowType.Start, WorkflowType.LoopStartNode.toString()].includes(this.type)) {
         anchors.push({
           x: x - width / 2 + 10,

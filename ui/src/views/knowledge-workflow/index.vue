@@ -140,7 +140,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, computed, nextTick, provide } from 'vue'
+import { ref, onBeforeMount, onBeforeUnmount, computed, nextTick, provide } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import type { Action } from 'element-plus'
 import Workflow from '@/workflow/index.vue'
@@ -159,6 +159,7 @@ import { EditionConst, PermissionConst, RoleConst } from '@/utils/permission/dat
 import permissionMap from '@/permission'
 import { WorkflowMode } from '@/enums/application'
 import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
+import { knowledgeBaseNode } from '@/workflow/common/data'
 provide('getResourceDetail', () => detail)
 provide('workflowMode', WorkflowMode.Knowledge)
 provide('loopWorkflowMode', WorkflowMode.KnowledgeLoop)
@@ -423,18 +424,16 @@ function getDetail() {
   loadSharedApi({ type: 'knowledge', systemType: apiType.value })
     .getKnowledgeDetail(id)
     .then((res: any) => {
-      let workspace = res.data?.work_flow
-      if (!workspace) {
-        workspace = {}
-      }
-
       detail.value = res.data
       detail.value.stt_model_id = res.data.stt_model
       detail.value.tts_model_id = res.data.tts_model
       detail.value.tts_type = res.data.tts_type
       saveTime.value = res.data?.update_time
+      if (!detail.value.work_flow || !('nodes' in detail.value.work_flow)) {
+        detail.value.work_flow = { nodes: [knowledgeBaseNode] }
+      }
       detail.value.work_flow?.nodes
-        ?.filter((v: any) => v.id === 'base-node')
+        ?.filter((v: any) => v.id === 'knowledge-base-node')
         .map((v: any) => {
           apiInputParams.value = v.properties.api_input_field_list
             ? v.properties.api_input_field_list.map((v: any) => {
@@ -526,7 +525,7 @@ const closeInterval = () => {
   }
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   getDetail()
   const workflowAutoSave = localStorage.getItem('workflowAutoSave')
   isSave.value = workflowAutoSave === 'true' ? true : false

@@ -15,7 +15,6 @@ class BaseModel extends AppNodeModel {
     return 600
   }
 }
-
 export default {
   type: 'knowledge-base-node',
   model: BaseModel,

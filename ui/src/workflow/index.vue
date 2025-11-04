@@ -78,7 +78,6 @@ const renderGraphData = (data?: any) => {
         strokeWidth: 1,
       },
     })
-    lf.value.graphModel.get = 'sdasdaad'
     lf.value.on('graph:rendered', () => {
       flowId.value = lf.value.graphModel.flowId
     })
