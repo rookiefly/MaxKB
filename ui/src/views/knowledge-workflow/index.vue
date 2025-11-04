@@ -157,9 +157,11 @@ import { t } from '@/locales'
 import { ComplexPermission } from '@/utils/permission/type'
 import { EditionConst, PermissionConst, RoleConst } from '@/utils/permission/data'
 import permissionMap from '@/permission'
+import { WorkflowMode } from '@/enums/application'
 import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
 provide('getResourceDetail', () => detail)
-provide('workflowMode', 'application')
+provide('workflowMode', WorkflowMode.Knowledge)
+provide('loopWorkflowMode', WorkflowMode.KnowledgeLoop)
 const { theme } = useStore()
 const router = useRouter()
 const route = useRoute()

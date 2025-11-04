@@ -24,6 +24,7 @@ export default {
     generalKnowledge: '通用知识库',
     webKnowledge: 'web知识库',
     larkKnowledge: '飞书知识库',
+    workflowKnowledge: '工作流知识库',
     yuqueKnowledge: '语雀知识库',
     generalInfo: '通过上传文件或手动录入构建知识库',
     webInfo: '通过网站链接构建知识库',
@@ -33,6 +34,8 @@ export default {
     createWebKnowledge: '创建 web 知识库',
     createLarkKnowledge: '创建飞书知识库',
     createYuqueKnowledge: '创建语雀知识库',
+    createWorkflowKnowledge: '创建工作流知识库',
+    workflowInfo: '通过自定义工作流方式构建知识库',
   },
   form: {
     knowledgeName: {

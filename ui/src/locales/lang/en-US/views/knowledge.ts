@@ -30,6 +30,7 @@ export default {
     generalKnowledge: 'General Knowledge',
     webKnowledge: 'Web Knowledge',
     larkKnowledge: 'Lark Knowledge',
+    workflowKnowledge: 'Workflow Knowledge',
     yuqueKnowledge: 'Yuque Knowledge',
     generalInfo: 'Upload local documents',
     webInfo: 'Sync text data from a web site',
@@ -39,6 +40,8 @@ export default {
     createWebKnowledge: 'Create Web Knowledge',
     createLarkKnowledge: 'Create Lark Knowledge',
     createYuqueKnowledge: 'Create Yuque Knowledge',
+    createWorkflowKnowledge: 'Create Workflow Knowledge',
+    workflowInfo: 'Building a knowledge base through custom workflow methods',
   },
   form: {
     knowledgeName: {

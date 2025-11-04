@@ -342,8 +342,15 @@ class KnowledgeSerializer(serializers.Serializer):
                     )
                 )
             ), with_search_one=True)
+            workflow = {}
+            if knowledge_dict.get('type') == 4:
+                from knowledge.models import KnowledgeWorkflow
+                k = QuerySet(KnowledgeWorkflow).filter(knowledge_id=knowledge_dict.get('id')).first()
+                if k:
+                    workflow = k.work_flow
             return {
                 **knowledge_dict,
+                'workflow': workflow,
                 'meta': json.loads(knowledge_dict.get('meta', '{}')),
                 'application_id_list': list(filter(
                     lambda application_id: all_application_list.__contains__(application_id),

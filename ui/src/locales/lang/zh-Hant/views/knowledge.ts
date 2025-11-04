@@ -28,11 +28,14 @@ export default {
     generalKnowledge: '通用知識庫',
     webKnowledge: 'Web 知識庫',
     larkKnowledge: '飛書知識庫',
+    workflowKnowledge: '工作流知識庫',
     yuqueKnowledge: '語雀知識庫',
     generalInfo: '上傳本地檔案',
     webInfo: '同步Web網站文字資料',
     larkInfo: '通過飛書文檔構建知識庫',
     yuqueInfo: '通過語雀文檔構建知識庫',
+    createWorkflowKnowledge: '建立工作流知識庫',
+    workflowInfo: '通過自定義工作流管道構建知識庫',
   },
   form: {
     knowledgeName: {

@@ -167,7 +167,7 @@ class KnowledgeWorkflowVersion(AppModelMixin):
 
     class Meta:
         db_table = "knowledge_workflow_version"
-        unique_together = [['knowledge', 'version']]  # 同一知识库的版本号唯一
+        unique_together = [['knowledge']]  # 同一知识库的版本号唯一
 
 
 def get_default_status():

@@ -110,16 +110,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, computed, provide } from 'vue'
+import { ref, computed, provide, inject } from 'vue'
 import { set } from 'lodash'
 import { iconComponent } from '../../icons/utils'
 import { copyClick } from '@/utils/clipboard'
 import { ElMessage } from 'element-plus'
 import type { FormInstance } from 'element-plus'
 import { t } from '@/locales'
-import { WorkflowMode } from '@/enums/application'
-
-provide('workflowMode', WorkflowMode.ApplicationLoop)
+provide('workflowMode', inject('loopWorkflowMode'))
 
 const titleFormRef = ref()
 const nodeNameDialogVisible = ref<boolean>(false)

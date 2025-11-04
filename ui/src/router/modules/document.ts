@@ -3,7 +3,7 @@ import { get_next_route } from '@/utils/permission'
 import { EditionConst, PermissionConst, RoleConst } from '@/utils/permission/data'
 import { ComplexPermission } from '@/utils/permission/type'
 const DocumentRouter = {
-  path: '/knowledge/:id/:folderId',
+  path: '/knowledge/:id/:folderId/:type',
   name: 'KnowledgeDetail',
   meta: { title: 'common.fileUpload.document', activeMenu: '/knowledge', breadcrumb: true },
   component: () => import('@/layout/layout-template/MainLayout.vue'),
@@ -17,7 +17,7 @@ const DocumentRouter = {
         iconActive: 'app-document-active',
         title: 'common.fileUpload.document',
         active: 'document',
-        parentPath: '/knowledge/:id/:folderId',
+        parentPath: '/knowledge/:id/:folderId/:type',
         parentName: 'KnowledgeDetail',
         group: 'KnowledgeDetail',
         permission: [
@@ -109,6 +109,14 @@ const DocumentRouter = {
         icon: 'app-problems',
         activeMenu: '/knowledge',
         sameRoute: 'knowledge',
+        permission: [
+          () => {
+            const to: any = get_next_route()
+            if (to.params.type === '4') {
+              return RoleConst.ADMIN
+            }
+          },
+        ],
       },
       redirect: (menu: any) => {
         const from = 'workspace'

@@ -618,6 +618,45 @@ export const loopBreakNode = {
   },
 }
 
+export const knowledgeMenuNodes = [
+  {
+    label: t('views.applicationWorkflow.nodes.classify.aiCapability'),
+    list: [
+      aiChatNode,
+      intentNode,
+      textToSpeechNode,
+      speechToTextNode,
+      imageGenerateNode,
+      imageUnderstandNode,
+      textToVideoNode,
+      imageToVideoNode,
+      videoUnderstandNode,
+      questionNode,
+    ],
+  },
+  {
+    label: t('views.knowledge.title'),
+    list: [documentExtractNode],
+  },
+  {
+    label: t('views.applicationWorkflow.nodes.classify.businessLogic'),
+    list: [conditionNode, formNode, replyNode, loopNode],
+  },
+  {
+    label: t('views.applicationWorkflow.nodes.classify.dataProcessing'),
+    list: [
+      variableAssignNode,
+      variableAggregationNode,
+      variableSplittingNode,
+      parameterExtractionNode,
+    ],
+  },
+  {
+    label: t('views.applicationWorkflow.nodes.classify.other'),
+    list: [mcpNode, toolNode],
+  },
+]
+
 export const menuNodes = [
   {
     label: t('views.applicationWorkflow.nodes.classify.aiCapability'),
@@ -694,6 +733,44 @@ export const applicationLoopMenuNodes = [
     list: [mcpNode, toolNode],
   },
 ]
+export const knowledgeLoopMenuNodes = [
+  {
+    label: t('views.applicationWorkflow.nodes.classify.aiCapability'),
+    list: [
+      aiChatNode,
+      intentNode,
+      textToSpeechNode,
+      speechToTextNode,
+      imageGenerateNode,
+      imageUnderstandNode,
+      textToVideoNode,
+      imageToVideoNode,
+      videoUnderstandNode,
+      questionNode,
+    ],
+  },
+  {
+    label: t('views.knowledge.title'),
+    list: [rerankerNode, documentExtractNode],
+  },
+  {
+    label: t('views.applicationWorkflow.nodes.classify.businessLogic'),
+    list: [conditionNode, formNode, replyNode, loopContinueNode, loopBreakNode],
+  },
+  {
+    label: t('views.applicationWorkflow.nodes.classify.dataProcessing', '数据处理'),
+    list: [
+      variableAssignNode,
+      variableSplittingNode,
+      parameterExtractionNode,
+      variableAggregationNode,
+    ],
+  },
+  {
+    label: t('views.applicationWorkflow.nodes.classify.other'),
+    list: [mcpNode, toolNode],
+  },
+]
 
 export const getMenuNodes = (workflowMode: WorkflowMode) => {
   if (workflowMode == WorkflowMode.Application) {
@@ -701,6 +778,12 @@ export const getMenuNodes = (workflowMode: WorkflowMode) => {
   }
   if (workflowMode == WorkflowMode.ApplicationLoop) {
     return applicationLoopMenuNodes
+  }
+  if (workflowMode == WorkflowMode.Knowledge) {
+    return knowledgeMenuNodes
+  }
+  if (workflowMode == WorkflowMode.KnowledgeLoop) {
+    return knowledgeLoopMenuNodes
   }
 }
 

@@ -197,6 +197,18 @@ const postKnowledge: (data: knowledgeData, loading?: Ref<boolean>) => Promise<Re
 }
 
 /**
+ * 创建工作流知识库
+ * @param data
+ * @param loading
+ * @returns
+ */
+const createWorkflowKnowledge: (data: any, loading?: Ref<boolean>) => Promise<Result<any>> = (
+  data,
+  loading,
+) => {
+  return post(`${prefix.value}/workflow`, data, undefined, loading)
+}
+/**
  * 获取当前用户可使用的向量化模型列表 (没用到)
  * @param application_id
  * @param loading
@@ -250,7 +262,7 @@ const postLarkKnowledge: (data: any, loading?: Ref<boolean>) => Promise<Result<A
 const putLarkKnowledge: (
   knowledge_id: string,
   data: any,
-  loading?: Ref<boolean>
+  loading?: Ref<boolean>,
 ) => Promise<Result<any>> = (knowledge_id, data, loading) => {
   return put(`${prefix.value}/lark/${knowledge_id}`, data, undefined, loading)
 }
@@ -262,45 +274,45 @@ const getAllTags: (params: any, loading?: Ref<boolean>) => Promise<Result<any>> 
   return get(`${prefix.value}/tags`, params, loading)
 }
 
-const getTags: (knowledge_id: string, params: any, loading?: Ref<boolean>) => Promise<Result<any>> = (
-  knowledge_id,
-  params,
-  loading,
-) => {
+const getTags: (
+  knowledge_id: string,
+  params: any,
+  loading?: Ref<boolean>,
+) => Promise<Result<any>> = (knowledge_id, params, loading) => {
   return get(`${prefix.value}/${knowledge_id}/tags`, params, loading)
 }
 
-const postTags: (knowledge_id: string, tags: any, loading?: Ref<boolean>) => Promise<Result<any>> = (
-  knowledge_id,
-  tags,
-  loading,
-) => {
+const postTags: (
+  knowledge_id: string,
+  tags: any,
+  loading?: Ref<boolean>,
+) => Promise<Result<any>> = (knowledge_id, tags, loading) => {
   return post(`${prefix.value}/${knowledge_id}/tags`, tags, null, loading)
 }
 
-const putTag: (knowledge_id: string, tag_id: string, tag: any, loading?: Ref<boolean>) => Promise<Result<any>> = (
-  knowledge_id,
-  tag_id,
-  tag,
-  loading,
-) => {
+const putTag: (
+  knowledge_id: string,
+  tag_id: string,
+  tag: any,
+  loading?: Ref<boolean>,
+) => Promise<Result<any>> = (knowledge_id, tag_id, tag, loading) => {
   return put(`${prefix.value}/${knowledge_id}/tags/${tag_id}`, tag, null, loading)
 }
 
-const delTag: (knowledge_id: string, tag_id: string, type: string, loading?: Ref<boolean>) => Promise<Result<any>> = (
-  knowledge_id,
-  tag_id,
-  type,
-  loading,
-) => {
+const delTag: (
+  knowledge_id: string,
+  tag_id: string,
+  type: string,
+  loading?: Ref<boolean>,
+) => Promise<Result<any>> = (knowledge_id, tag_id, type, loading) => {
   return del(`${prefix.value}/${knowledge_id}/tags/${tag_id}/${type}`, null, loading)
 }
 
-const delMulTag: (knowledge_id: string, tags: any, loading?: Ref<boolean>) => Promise<Result<any>> = (
-  knowledge_id,
-  tags,
-  loading,
-) => {
+const delMulTag: (
+  knowledge_id: string,
+  tags: any,
+  loading?: Ref<boolean>,
+) => Promise<Result<any>> = (knowledge_id, tags, loading) => {
   return put(`${prefix.value}/${knowledge_id}/tags/batch_delete`, tags, null, loading)
 }
 
@@ -326,5 +338,6 @@ export default {
   postTags,
   putTag,
   delTag,
-  delMulTag
+  delMulTag,
+  createWorkflowKnowledge,
 }

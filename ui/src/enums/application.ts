@@ -43,4 +43,8 @@ export enum WorkflowMode {
   Application = 'application',
   // 应用工作流循环
   ApplicationLoop = 'application-loop',
+  // 知识库工作流
+  Knowledge = 'knowledge',
+  // 知识库工作流循环体
+  KnowledgeLoop = 'knowledge-loop',
 }
